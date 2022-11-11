@@ -1,18 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
-import SampleCounter from './SampleCounter';
+
 import ProductList from './ProductList/ProductList';
-import LoginForm from './LoginForm';
+import LoginForm from './Login/LoginForm';
+import { Counter } from './features/counter/Counter';
+
 function App() {
   return (
     <div>
@@ -44,6 +40,7 @@ function App() {
         <Switch>
           <Route path="/products">
             <ProductList />
+            <Counter />
           </Route>
           <Route path="/">
             <LoginForm />
