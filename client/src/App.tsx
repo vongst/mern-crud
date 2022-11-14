@@ -5,9 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 
-import ProductList from './ProductList/ProductList';
 import LoginForm from './Login/LoginForm';
+import { Login } from './features/login/Login';
 import { Counter } from './features/counter/Counter';
+import ProductList from './features/productlist/ProductList';
 
 function App() {
   return (
@@ -40,10 +41,9 @@ function App() {
         <Switch>
           <Route path="/products">
             <ProductList />
-            <Counter />
           </Route>
           <Route path="/">
-            <LoginForm />
+            <Login />
           </Route>
         </Switch>
       </Router>
