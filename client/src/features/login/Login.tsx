@@ -14,7 +14,6 @@ import {
 } from './loginSlice';
 
 export function Login() {
-  console.log('potato')
 
   const userName = useAppSelector(selectUserName) || '';
   const isLoggedIn = useAppSelector(selectIsLoggedIn);

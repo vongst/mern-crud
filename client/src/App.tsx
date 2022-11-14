@@ -5,12 +5,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 
-import LoginForm from './Login/LoginForm';
 import { Login } from './features/login/Login';
 import { Counter } from './features/counter/Counter';
 import ProductList from './features/productlist/ProductList';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { selectUserName, selectIsLoggedIn, userLogOut } from './features/login/loginSlice';
 
 function App() {
+
+  const userName = useAppSelector(selectUserName) || '';
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <Navbar expand="lg" variant="light" bg="light">
@@ -26,18 +32,20 @@ function App() {
             <Button variant="outline-secondary">Search</Button>
           </Form>
 
+          {isLoggedIn ?
           <Nav className="justify-content-end">
             <Navbar.Text>
-              Signed in as: <strong>admin</strong>
+              Signed in as: <strong>{userName}</strong>
             </Navbar.Text>
-            <Nav.Link href="#home">Logout</Nav.Link>
+            <Nav.Link onClick={() => dispatch(userLogOut())}>Logout</Nav.Link>
           </Nav>
+           : '' }
           
         </Container>
       </Navbar>
       
       <Container>
-      <Router>
+      {/* <Router>
         <Switch>
           <Route path="/products">
             <ProductList />
@@ -46,7 +54,9 @@ function App() {
             <Login />
           </Route>
         </Switch>
-      </Router>
+      </Router> */}
+
+{isLoggedIn ? <ProductList /> : <Login /> }
       </Container>
     </div>
   );
