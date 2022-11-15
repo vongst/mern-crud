@@ -103,10 +103,7 @@ export const loginSlice = createSlice({
       })
       .addCase(loginAsync.rejected, (state) => {
         console.log("loginAsync.rejected\n ")
-
-
         state.status = 'failed';
-
         state.userName = null
         state.token = null
         state.loggedIn = false;
