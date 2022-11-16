@@ -22,6 +22,8 @@ Routes:
 USER AUTH
 
 - return error/success code
+- sha256+salt
+- simple JWT
 
 API Endpoints
 /api/products/list
@@ -46,4 +48,29 @@ API Endpoints
 
 ===
 
-- mongodb needs to whitelist IP??? hahahaa.... (FIXED)
+- mongodb needs to whitelist IP??? hahahaa.... (FIXED. what is cyber security?)
+- react strict mode => render components 2x
+- req.query not req.body
+- history not working in BrowserRouter v5 for react@16.14 / better routing / route guards / history
+
+===
+
+- [x] delete from db
+- [x] create (fronend + db)
+
+- [x] update (frontend + db)
+- [x] rerender when store changes
+
+- [x] jwt auth for frontend
+- [x] jwt for backend api
+
+- [] failed auth message
+
+- refactor
+- tests
+- deploy
+
+- search bar
+- pagination, etc
+- stronger input validation
+- history not working in BrowserRouter v5 for react@16.14

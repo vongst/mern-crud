@@ -1,0 +1,21 @@
+small {
+    text-transform: uppercase;
+    // opacity: 0.5;
+    display: inline-block;
+}
+#productlist-badge {
+    font-size: 33%;
+    position: absolute;
+    display: inline-block;
+    margin-left: 10px;
+}
+#productlist {
+
+    .product-row:nth-of-type(odd), .product-create {
+        background: rgba(248,249,250);
+    }
+    .product-row:hover, .product-create:hover {
+        cursor: pointer;
+        background-color: rgba(243,244,245);
+    }
+} 
