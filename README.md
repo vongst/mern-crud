@@ -1,3 +1,7 @@
+![screenshot](./screens/1.png)
+![screenshot](./screens/2.png)
+![screenshot](./screens/3.png)
+
 - frontend: login
 - frontend: products page
 - backend: user auth
