@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import axios from "axios";
 
-// You should set up axios like this and move it to another file
+// Move axios to another file
 const api = axios.create({
   baseURL: "https://mern-crud-7n6j.onrender.com",
   withCredentials: false,
@@ -75,7 +75,6 @@ export const productListSlice = createSlice({
       state.products = state.products.filter(
         (product) => product._id !== action.payload
       );
-      console.log(action.payload + " has been deleted");
       state.alert = {
         type: "info",
         message: `Product ID ${action.payload} has been deleted`,
@@ -127,9 +126,7 @@ export const updateProduct = (id: string, payload: Record<string, any>) => {
 
 export const deleteProduct = (id: string) => {
   return async (dispatch: DispatchFn) => {
-    console.log("deleteProduct " + id);
     api.delete(`/${id}`).then(() => {
-      console.log("deleteProduct api.delete.then " + id);
       dispatch(afterDelete(id));
     });
   };
