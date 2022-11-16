@@ -59,7 +59,7 @@ export const productListSlice = createSlice({
     ) => {
       state.products = state.products.map((product) => {
         // Update the correct product with the new payload
-        if (product._id !== action.payload.product_id) {
+        if (product._id === action.payload.product_id) {
           return action.payload;
         } else {
           return product;
@@ -75,6 +75,7 @@ export const productListSlice = createSlice({
       state.products = state.products.filter(
         (product) => product._id !== action.payload
       );
+      console.log(action.payload + " has been deleted");
       state.alert = {
         type: "info",
         message: `Product ID ${action.payload} has been deleted`,
@@ -127,6 +128,9 @@ export const updateProduct = (id: string, payload: Record<string, any>) => {
 export const deleteProduct = (id: string) => {
   return async (dispatch: DispatchFn) => {
     console.log("deleteProduct " + id);
-    api.delete(`/${id}`).then(() => dispatch(afterDelete(id)));
+    api.delete(`/${id}`).then(() => {
+      console.log("deleteProduct api.delete.then " + id);
+      dispatch(afterDelete(id));
+    });
   };
 };
