@@ -1,20 +1,20 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
-import axios from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState, AppThunk } from "../../app/store";
+import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_API_URL;
 
 export interface LoginState {
-  loggedIn: boolean,
-  userName: string | null,
-  token?: null | any,
-  status: 'idle' | 'loading' | 'failed',
+  loggedIn: boolean;
+  userName: string | null;
+  token?: null | any;
+  status: "idle" | "loading" | "failed";
 }
 
 const initialState: LoginState = {
   loggedIn: false,
   userName: null,
-  status: 'idle',
+  status: "idle",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -38,16 +38,15 @@ const initialState: LoginState = {
 // })
 
 export const loginAsync = createAsyncThunk(
-  'login/fetchUser',
-  async (query: {username: string, password: string}) => {
-    const response = await axios.post(API_URL + 'auth', query)
+  "login/fetchUser",
+  async (query: { username: string; password: string }) => {
+    const response = await axios.post(API_URL + "auth", query);
     return response.data;
   }
 );
 
-
 export const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -62,23 +61,27 @@ export const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
-        state.userName = null
-        state.token = null
+        state.userName = null;
+        state.token = null;
         state.loggedIn = false;
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        console.log("loginAsync.fulfilled\n " + JSON.stringify(state) + JSON.stringify(action))
-        state.status = 'idle';
+        console.log(
+          "loginAsync.fulfilled\n " +
+            JSON.stringify(state) +
+            JSON.stringify(action)
+        );
+        state.status = "idle";
         state.token = action.payload.token;
         state.userName = action.payload.username;
         state.loggedIn = true;
       })
       .addCase(loginAsync.rejected, (state) => {
-        console.log("loginAsync.rejected\n ")
-        state.status = 'failed';
-        state.userName = null
-        state.token = null
+        console.log("loginAsync.rejected\n ");
+        state.status = "failed";
+        state.userName = null;
+        state.token = null;
         state.loggedIn = false;
       });
   },
