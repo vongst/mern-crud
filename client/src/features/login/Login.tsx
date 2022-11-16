@@ -43,7 +43,6 @@ export function Login() {
           
       <Form onSubmit={handleSubmit}>
       { loginStatus == 'failed' ? <Alert key="danger" variant="danger">Authentication failed.</Alert> : ''}
-      { loginStatus == 'loading' ? <Spinner animation="border" variant="primary" /> : 
 
       <Stack gap={3}>
 
@@ -54,11 +53,16 @@ export function Login() {
         <FloatingLabel label="Password">
           <Form.Control size="lg" type="text" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)}/>
         </FloatingLabel>
-        <Button variant="primary" size="lg"  type="submit">
-          Login
-        </Button>
+
+      { loginStatus == 'loading' ? 
+        <Button variant="primary" size="lg" disabled>
+          <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
+          Authenticating street cred...
+        </Button> 
+      : <Button variant="primary" size="lg" type="submit">Login</Button> }
+
+        
       </Stack>
-}
 
       </Form>
 
