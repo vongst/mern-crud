@@ -72,7 +72,7 @@ export const productListSlice = createSlice({
       state.status = 'idle';
 
       // console.log(action.payload)
-      axios.delete(process.env.REACT_APP_API_URL + '/' + action.payload)
+      axios.delete(process.env.REACT_APP_API_URL + action.payload)
       .then((response) => {
         console.log('productDelete > axios.delete > .then\n' + JSON.stringify(response))
       })
