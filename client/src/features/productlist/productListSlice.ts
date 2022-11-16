@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
-import { fetchCount } from "./productListAPI";
 import axios from "axios";
 
 // export interface MyInterface extends Array<MyType> { }
