@@ -40,11 +40,7 @@ const initialState: LoginState = {
 export const loginAsync = createAsyncThunk(
   'login/fetchUser',
   async (query: {username: string, password: string}) => {
-    console.log(query)
-    
     const response = await axios.post(API_URL + 'auth', query)
-
-    // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
 );
@@ -55,34 +51,10 @@ export const loginSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    verifyAuth: (state: any, action: PayloadAction<{username: string, password: string}>) => {
-
-      console.log("reducer:verifyAuth " + action.payload)
-
-      // axios.post('http://localhost:5000/auth', action.payload);
-
-      // console.log(response)
-      // state.loggedIn = true;
-      // state.userName = action.payload.username
-      // state.token = response.status
-
-      // axios.post('http://localhost:5000/auth', action.payload)
-      //   .then((response) => {
-
-      //     console.log(response)
-      //     state.loggedIn = true;
-      //     state.userName = action.payload.username
-      //     state.token = response.status
-      //   })
-      //   .catch((error) => {})
-    },
-    userLogIn: (state, action: PayloadAction<string>) => {
-      state.loggedIn = true;
-      state.userName = action.payload;
-    },
     userLogOut: (state) => {
       state.loggedIn = false;
       state.userName = null;
+      state.token = null;
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -94,8 +66,6 @@ export const loginSlice = createSlice({
         state.token = null
         state.loggedIn = false;
         state.status = 'loading';
-
-
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         console.log("loginAsync.fulfilled\n " + JSON.stringify(state) + JSON.stringify(action))
@@ -114,7 +84,7 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { userLogIn, userLogOut, verifyAuth } = loginSlice.actions;
+export const { userLogOut } = loginSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
