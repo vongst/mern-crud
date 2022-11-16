@@ -12,5 +12,8 @@
     "project": ["./tsconfig.json"]
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "eqeqeq": "off",
+    "no-console": "off"
+  }
 }
