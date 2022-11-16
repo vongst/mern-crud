@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { Login } from './features/login/Login'
+import LoginForm from './features/login/LoginForm'
 import ProductList from './features/productlist/ProductList'
 import { useAppDispatch, useAppSelector } from './app/hooks'
 import { selectUserName, selectIsLoggedIn, userLogOut } from './features/login/loginSlice'
 
 import { Container, Nav, Navbar } from 'react-bootstrap'
-import { BsBoxArrowRight, BsPersonCheck } from 'react-icons/bs'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import LoggedInNavBar from './features/login/LoggedInNavBar'
 
 function App() {
 
@@ -16,26 +15,18 @@ function App() {
   const dispatch = useAppDispatch();
 
   return (
-    <div>
-      <Navbar expand="lg" bg="dark" variant="dark" className='p-4'>
+    <>
+      <Navbar expand="lg" bg="dark" variant="dark" className='p-2'>
         <Container>
           <Navbar.Brand>MightyFoo Admin</Navbar.Brand>
-          {isLoggedIn ?
-          <Nav className="justify-content-end">
-            <Navbar.Text className="me-4">
-              <BsPersonCheck className="me-2"/> <strong>{userName}</strong>
-            </Navbar.Text>
-            <Nav.Link onClick={() => dispatch(userLogOut())}>Logout <BsBoxArrowRight className="ml-2" /></Nav.Link>
-          </Nav>
-           : '' }
-          
+          {isLoggedIn ? <LoggedInNavBar username={userName} /> : '' }
         </Container>
       </Navbar>
       
       <Container className="p-2">
-       {isLoggedIn ? <ProductList /> : <Login /> }
+       {isLoggedIn ? <ProductList /> : <LoginForm /> }
       </Container>
-    </div>
+    </>
   );
 }
 

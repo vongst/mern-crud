@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { Alert, Badge, Stack, Spinner } from "react-bootstrap";
+
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { productListAsync, selectAlert } from './productListSlice';
+
 import ProductListItem from "./ProductListItem";
-import { selectAllProducts, productListAsync, selectAlert, } from './productListSlice';
-import './ProductList.scss';
 import ProductListItemEdit from "./ProductListItemEdit";
 
-function ProductList() {
+import './ProductList.scss';
+
+const ProductList = () => {
     // console.log(useAppSelector(state => state));
 
     const dispatch = useAppDispatch()

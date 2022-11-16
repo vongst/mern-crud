@@ -12,7 +12,7 @@ import {
 } from './loginSlice';
 import { BsPersonX } from 'react-icons/bs'
 
-export function Login() {
+const LoginForm = () => {
 
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const userName = useAppSelector(selectUserName) || '';
@@ -84,3 +84,5 @@ export function Login() {
     </div>
   );
 }
+
+export default LoginForm

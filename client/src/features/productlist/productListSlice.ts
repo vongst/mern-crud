@@ -78,7 +78,7 @@ export const productListSlice = createSlice({
       })
       
 
-      state.alert = { type: "success", message: "Product " + action.payload + " has been deleted!" }
+      state.alert = { type: "info", message: "Product " + action.payload + " has been deleted!" }
       // How to make async?
       
 
