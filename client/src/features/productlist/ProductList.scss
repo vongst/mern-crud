@@ -1,6 +1,5 @@
 small {
     text-transform: uppercase;
-    // opacity: 0.5;
     display: inline-block;
 }
 #productlist-badge {
@@ -10,7 +9,6 @@ small {
     margin-left: 10px;
 }
 #productlist {
-
     .product-row:nth-of-type(odd), .product-create {
         background: rgba(248,249,250);
     }
