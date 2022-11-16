@@ -3,7 +3,7 @@ import { Button, Col, Row, Image, Stack, Card } from "react-bootstrap";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { BsPencil } from "react-icons/bs";
+import { BsPencil, BsBagPlus} from "react-icons/bs";
 import { productCreate, productUpdate, fetchProductList } from './productListSlice';
 
 
@@ -15,7 +15,7 @@ const ProductListItemEdit = (props: any) => {
     const [ productTitle, setProductTitle ] = useState(props.title);
 
     
-    let itemTitle = <div>Add new product</div>
+    let itemTitle = <div><BsBagPlus /> Add new record </div>
     let submitButton = <Button variant="primary" type="submit"><BsPencil /> Create</Button>
     if (props._id ) { 
         itemTitle = <div><small>Edit Product ID: </small>  

@@ -10,6 +10,7 @@ import {
   selectToken,
   loginAsync
 } from './loginSlice';
+import { BsPersonX } from 'react-icons/bs'
 
 export function Login() {
 
@@ -42,7 +43,7 @@ export function Login() {
           <h2 className="mb-5">Login</h2>
           
       <Form onSubmit={handleSubmit}>
-      { loginStatus == 'failed' ? <Alert key="danger" variant="danger">Authentication failed.</Alert> : ''}
+      { loginStatus == 'failed' ? <Alert key="danger" variant="danger"><BsPersonX /> Authentication failed.</Alert> : ''}
 
       <Stack gap={3}>
 
@@ -56,7 +57,7 @@ export function Login() {
 
       { loginStatus == 'loading' ? 
         <Button variant="primary" size="lg" disabled>
-          <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
+          <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" /> 
           Authenticating street cred...
         </Button> 
       : <Button variant="primary" size="lg" type="submit">Login</Button> }
