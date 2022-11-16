@@ -1,8 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState, AppThunk } from "../../app/store";
+import { RootState } from "../../app/store";
 import axios from "axios";
 
-// export interface MyInterface extends Array<MyType> { }
+// You should set up axios like this and move it to another file
+const api = axios.create({
+  baseURL: "https://mern-crud-7n6j.onrender.com",
+  withCredentials: false,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+});
 
 export interface ProductListState {
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -18,18 +26,10 @@ const initialState: ProductListState = {
   alert: null,
 };
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched. Thunks are
-// typically used to make async requests.
-
 export const productListAsync = createAsyncThunk(
   "products/fetchList",
   async () => {
-    const response = await axios.get(
-      "https://mern-crud-7n6j.onrender.com/" + "product"
-    );
+    const response = await api.get("product");
     return response.data;
   }
 );
@@ -37,30 +37,18 @@ export const productListAsync = createAsyncThunk(
 export const productListSlice = createSlice({
   name: "productList",
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
-
-  /* create
-   *  update/edit
-   *  delete
-   */
   reducers: {
-    productCreate: (
+    afterCreate: (
       state,
       action: PayloadAction<{ title: string; image: string; sku: string }>
     ) => {
-      axios.post(
-        "https://mern-crud-7n6j.onrender.com/" + "product/add",
-        action.payload
-      );
-      // How to make async?
-
+      state.products = state.products.concat(action.payload);
       state.alert = {
         type: "success",
         message: "Product " + action.payload.title + " has been created!",
       };
-      state.products = state.products.concat(action.payload);
     },
-    productUpdate: (
+    afterUpdate: (
       state,
       action: PayloadAction<{
         product_id: string;
@@ -69,74 +57,76 @@ export const productListSlice = createSlice({
         sku: string;
       }>
     ) => {
-      state.status = "idle";
-      axios
-        .post(
-          "https://mern-crud-7n6j.onrender.com/" +
-            "update/" +
-            action.payload.product_id,
-          action.payload
-        )
-        .then((res) => {
-          console.log(res);
-        });
-      // How to make async?
+      state.products = state.products.map((product) => {
+        // Update the correct product with the new payload
+        if (product._id !== action.payload.product_id) {
+          return action.payload;
+        } else {
+          return product;
+        }
+      });
 
       state.alert = {
         type: "success",
         message: "Product SKU " + action.payload.sku + " has been updated!",
       };
     },
-    productDelete: (state, action: PayloadAction<string>) => {
-      state.status = "idle";
-
-      // console.log(action.payload)
-      axios
-        .delete("https://mern-crud-7n6j.onrender.com/" + action.payload)
-        .then((response) => {
-          console.log(
-            "productDelete > axios.delete > .then\n" + JSON.stringify(response)
-          );
-        });
-
+    afterDelete: (state, action: PayloadAction<string>) => {
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload
+      );
       state.alert = {
         type: "info",
-        message: "Product " + action.payload + " has been deleted!",
+        message: `Product ID ${action.payload} has been deleted`,
       };
-      // How to make async?
     },
   },
   extraReducers(builder) {
     builder
-
       .addCase(productListAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(productListAsync.fulfilled, (state, action) => {
-        console.log(
-          "productListAsync.fulfilled\n " +
-            JSON.stringify(state) +
-            JSON.stringify(action)
-        );
         state.status = "succeeded";
         state.products = action.payload;
       })
       .addCase(productListAsync.rejected, (state, action) => {
-        console.log("productListAsync.rejected\n ");
         state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
 
-export const { productCreate, productDelete, productUpdate } =
-  productListSlice.actions;
+const { afterCreate, afterDelete, afterUpdate } = productListSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectAllProducts = (state: RootState) =>
   state.productList.products;
+
 export const selectAlert = (state: RootState) => state.productList.alert;
 
 export default productListSlice.reducer;
+
+type DispatchFn = (...args: unknown[]) => unknown;
+
+export const createProduct = (payload: Record<string, any>) => {
+  return async (dispatch: DispatchFn) => {
+    api.post(`product/add`, payload).then((res) => {
+      dispatch(afterCreate(res.data));
+    });
+  };
+};
+
+export const updateProduct = (id: string, payload: Record<string, any>) => {
+  return async (dispatch: DispatchFn) => {
+    api.post(`update/${id}`, payload).then((res) => {
+      dispatch(afterUpdate(res.data));
+    });
+  };
+};
+
+export const deleteProduct = (id: string) => {
+  return async (dispatch: DispatchFn) => {
+    console.log("deleteProduct " + id);
+    api.delete(`/${id}`).then(() => dispatch(afterDelete(id)));
+  };
+};

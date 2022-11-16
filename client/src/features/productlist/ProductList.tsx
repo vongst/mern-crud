@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Alert, Badge, Stack, Spinner } from "react-bootstrap";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { productListAsync, selectAlert } from "./productListSlice";
+import { productListAsync, selectAlert } from "./productListSlice.old";
 
 import ProductListItem from "./ProductListItem";
 import ProductListItemEdit from "./ProductListItemEdit";

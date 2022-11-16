@@ -11,7 +11,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { BsPencil, BsBagPlus } from "react-icons/bs";
-import { productCreate, productUpdate } from "./productListSlice";
+import { createProduct, updateProduct } from "./productListSlice";
 
 const ProductListItemEdit = (props: any) => {
   const dispatch = useAppDispatch();
@@ -52,13 +52,14 @@ const ProductListItemEdit = (props: any) => {
       sku: event.target.product_sku.value,
     };
     if (props._id === undefined) {
-      dispatch(productCreate(formData));
+      dispatch(createProduct(formData));
+      setProductImage("");
+      setProductSKU("");
+      setProductTitle("");
     } else {
-      dispatch(productUpdate(formData));
+      dispatch(updateProduct(formData.product_id, formData));
+      return <ProductListItemEdit />;
     }
-    setProductImage("");
-    setProductSKU("");
-    setProductTitle("");
   };
 
   return (

@@ -7,7 +7,7 @@ import {
 } from "react";
 import { Button, Col, Row, Image, Stack } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { productDelete } from "./productListSlice";
+import { deleteProduct } from "./productListSlice";
 import { BsPencil } from "react-icons/bs";
 
 import ProductListItemEdit from "./ProductListItemEdit";
@@ -46,7 +46,7 @@ const ProductListItem = (product: any) => {
           </Button>
           <Button
             variant="outline-danger"
-            onClick={() => dispatch(productDelete(product._id))}
+            onClick={() => dispatch(deleteProduct(product._id))}
           >
             Delete
           </Button>
