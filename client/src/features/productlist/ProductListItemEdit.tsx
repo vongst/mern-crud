@@ -34,7 +34,9 @@ const ProductListItemEdit = (props: any) => {
         } else {
             dispatch(productUpdate(formData));
         }
-        event.target.reset();
+        setProductImage('')
+        setProductSKU('')
+        setProductTitle('')
     }
 
     return(
