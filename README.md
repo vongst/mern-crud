@@ -64,7 +64,9 @@ API Endpoints
 - [x] jwt auth for frontend
 - [x] jwt for backend api
 
-- [] failed auth message
+- [x] failed auth message
+
+- [ ] bug: react not re rendering new store / ProductList.tsx lifecycle bug
 
 - refactor
 - tests
