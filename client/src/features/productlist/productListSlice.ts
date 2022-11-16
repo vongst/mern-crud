@@ -30,7 +30,7 @@ const initialState: ProductListState = {
 export const productListAsync = createAsyncThunk(
   'products/fetchList',
   async () => {
-    const response = await axios.get(process.env.REACT_APP_API_URL + 'product')
+    const response = await axios.get('https://mern-crud-7n6j.onrender.com/' + 'product')
     return response.data;
   }
 );
@@ -53,7 +53,7 @@ export const productListSlice = createSlice({
       console.log(action.payload)
       state.status = 'idle';
 
-      axios.post(process.env.REACT_APP_API_URL + 'product/add', action.payload);
+      axios.post('https://mern-crud-7n6j.onrender.com/' + 'product/add', action.payload);
       // How to make async?
 
       state.alert = { type: "success", message: "Product " + action.payload.title + " has been created!" }
@@ -62,7 +62,7 @@ export const productListSlice = createSlice({
     productUpdate: (state, action: PayloadAction<{product_id: string, title: string, image: string, sku: string}>) => {
    
       state.status = 'idle';
-      axios.post(process.env.REACT_APP_API_URL + 'update/' + action.payload.product_id, action.payload )
+      axios.post('https://mern-crud-7n6j.onrender.com/' + 'update/' + action.payload.product_id, action.payload )
       .then((res) => { console.log(res) })
       // How to make async?
 
@@ -72,7 +72,7 @@ export const productListSlice = createSlice({
       state.status = 'idle';
 
       // console.log(action.payload)
-      axios.delete(process.env.REACT_APP_API_URL + action.payload)
+      axios.delete('https://mern-crud-7n6j.onrender.com/' + action.payload)
       .then((response) => {
         console.log('productDelete > axios.delete > .then\n' + JSON.stringify(response))
       })
