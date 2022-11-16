@@ -52,7 +52,7 @@ API Endpoints
 
 ===
 
-- mongodb needs to whitelist IP??? hahahaa.... (FIXED. what is cyber security?)
+- mongodb needs to whitelist IP? (FIXED)
 - react strict mode => render components 2x
 - req.query not req.body
 - history not working in BrowserRouter v5 for react@16.14 / better routing / route guards / history
