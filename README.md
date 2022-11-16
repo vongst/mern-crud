@@ -66,13 +66,15 @@ API Endpoints
 
 - [x] failed auth message
 
-- [ ] bug: react not re rendering new store / ProductList.tsx lifecycle bug
+- [x] bug: react not re rendering new store / ProductList.tsx lifecycle bug
 
 - refactor
 - tests
 - deploy
 
 - search bar
+  - [x] API done
+  - [ ] frontend not done
 - pagination, etc
 - stronger input validation
 - history not working in BrowserRouter v5 for react@16.14
