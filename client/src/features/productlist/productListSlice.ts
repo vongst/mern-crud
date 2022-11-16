@@ -46,18 +46,13 @@ export const productListSlice = createSlice({
   *  delete
   */
   reducers: {
-    userLogIn: (state, action: PayloadAction<string>) => {
-      state.error = 'error';
-    },
     productCreate: (state, action: PayloadAction<{title: string, image: string, sku: string}>) => {
-      console.log(action.payload)
-      state.status = 'idle';
 
       axios.post('https://mern-crud-7n6j.onrender.com/' + 'product/add', action.payload);
       // How to make async?
 
       state.alert = { type: "success", message: "Product " + action.payload.title + " has been created!" }
-      state.products = state.products
+      state.products = state.products.concat(action.payload)
     },
     productUpdate: (state, action: PayloadAction<{product_id: string, title: string, image: string, sku: string}>) => {
    
@@ -103,13 +98,12 @@ export const productListSlice = createSlice({
   }
 });
 
-export const { userLogIn, productCreate, productDelete, productUpdate } = productListSlice.actions;
+export const { productCreate, productDelete, productUpdate } = productListSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectAllProducts = (state: RootState) => state.productList.products
 export const selectAlert = (state: RootState) => state.productList.alert
-
 
 export default productListSlice.reducer;

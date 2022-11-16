@@ -14,7 +14,6 @@ const ProductListItem = (product: any) => {
         return (<ProductListItemEdit editMode={'update'} {...product} />)
     }
 
-
     return(
         <Row id={product._id} className="product-row p-3">
             <Col md={2} xs={12} className="product-img">

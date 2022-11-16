@@ -14,12 +14,10 @@ const ProductListItemEdit = (props: any) => {
     const [ productSKU, setProductSKU ] = useState(props.sku);
     const [ productTitle, setProductTitle ] = useState(props.title);
 
-    
     let itemTitle = <div><BsBagPlus /> Add new record </div>
     let submitButton = <Button variant="primary" type="submit"><BsPencil /> Create</Button>
     if (props._id ) { 
-        itemTitle = <div><small>Edit Product ID: </small>  
-        <code>{props._id}</code></div>;    
+        itemTitle = <div><small>Edit Product ID: </small> <code>{props._id}</code></div>;    
         submitButton = <Button variant="primary" type="submit"><BsPencil /> Update item</Button>
     } 
 
@@ -35,7 +33,6 @@ const ProductListItemEdit = (props: any) => {
             dispatch(productCreate(formData));
         } else {
             dispatch(productUpdate(formData));
-
         }
         event.target.reset();
     }
@@ -60,16 +57,13 @@ const ProductListItemEdit = (props: any) => {
             </Col>
             
             <Col md={5} xs={12} className="product-title">
-            <FloatingLabel label="Title">
-                <Form.Control type="text" required id="product_title" name="product_title" value={productTitle} onChange={(e) => setProductTitle(e.target.value)}  />
-            </FloatingLabel>
+                <FloatingLabel label="Title">
+                    <Form.Control type="text" required id="product_title" name="product_title" value={productTitle} onChange={(e) => setProductTitle(e.target.value)}  />
+                </FloatingLabel>
             </Col>
 
             <Col md={3} xs={12} className="product-actions justify-content-end">
-                <Stack direction="horizontal" gap={3}>
                 {submitButton}
-                <Button variant="outline-secondary">Clear</Button>
-                </Stack>
             </Col>
         </Row>
         </Form>
