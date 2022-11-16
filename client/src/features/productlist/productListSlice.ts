@@ -26,7 +26,7 @@ const initialState: ProductListState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export const fetchProductList = createAsyncThunk('products/fetchProductList', async () => {
-  const response = await axios.get('http://localhost:5000/product')
+  const response = await axios.get(process.env.REACT_APP_API_URL + '/product')
   // console.log('response.data');
   return response.data
 })
@@ -50,7 +50,7 @@ export const productListSlice = createSlice({
       console.log(action.payload)
       state.status = 'idle';
 
-      axios.post('http://localhost:5000/product/add', action.payload);
+      axios.post(process.env.REACT_APP_API_URL + '/product/add', action.payload);
       // How to make async?
 
       state.alert = { type: "success", message: "Product " + action.payload.title + " has been created!" }
@@ -59,7 +59,7 @@ export const productListSlice = createSlice({
     productUpdate: (state, action: PayloadAction<{product_id: string, title: string, image: string, sku: string}>) => {
    
       state.status = 'idle';
-      axios.post('http://localhost:5000/update/' + action.payload.product_id, action.payload )
+      axios.post(process.env.REACT_APP_API_URL + '/update/' + action.payload.product_id, action.payload )
       .then((res) => { console.log(res) })
       // How to make async?
 
@@ -69,7 +69,7 @@ export const productListSlice = createSlice({
       /* productListSlice.ts:72 Uncaught (in promise) TypeError: Cannot perform 'set' on a proxy that has been revoked
     at productListSlice.ts:72:1
       */
-      // axios.post('http://localhost:5000/update/' + action.payload.product_id, action.payload )
+      // axios.post(process.env.REACT_APP_API_URL + '/update/' + action.payload.product_id, action.payload )
       // .then((response) => {
       //   console.log(response)
 
@@ -87,7 +87,7 @@ export const productListSlice = createSlice({
       state.status = 'idle';
 
       console.log(action.payload)
-      axios.delete('http://localhost:5000/' + action.payload)
+      axios.delete(process.env.REACT_APP_API_URL + '/' + action.payload)
       .then((response) => {
         console.log(response)
       })

@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../../app/store';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL
+
 export interface LoginState {
   loggedIn: boolean,
   userName: string | null,
@@ -40,7 +42,7 @@ export const loginAsync = createAsyncThunk(
   async (query: {username: string, password: string}) => {
     console.log(query)
     
-    const response = await axios.post('http://localhost:5000/auth', query)
+    const response = await axios.post(API_URL + '/auth', query)
 
     // The value we return becomes the `fulfilled` action payload
     return response.data;
