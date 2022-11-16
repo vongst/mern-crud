@@ -1,133 +1,133 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
-import axios from "axios";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../../app/store'
+import axios from 'axios'
 
 // Move axios to another file
 const api = axios.create({
-  baseURL: "https://mern-crud-7n6j.onrender.com",
+  baseURL: 'https://mern-crud-7n6j.onrender.com',
   withCredentials: false,
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
-});
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
+})
 
 export interface ProductListState {
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error?: string | null;
-  products: any[];
-  alert?: { type: string; message: string } | null;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed'
+  error?: string | null
+  products: any[]
+  alert?: { type: string, message: string } | null
 }
 
 const initialState: ProductListState = {
-  status: "idle",
+  status: 'idle',
   error: null,
   products: [],
-  alert: null,
-};
+  alert: null
+}
 
 export const productListAsync = createAsyncThunk(
-  "products/fetchList",
+  'products/fetchList',
   async () => {
-    const response = await api.get("product");
-    return response.data;
+    const response = await api.get('product')
+    return response.data
   }
-);
+)
 
 export const productListSlice = createSlice({
-  name: "productList",
+  name: 'productList',
   initialState,
   reducers: {
     afterCreate: (
       state,
-      action: PayloadAction<{ title: string; image: string; sku: string }>
+      action: PayloadAction<{ title: string, image: string, sku: string }>
     ) => {
-      state.products = state.products.concat(action.payload);
+      state.products = state.products.concat(action.payload)
       state.alert = {
-        type: "success",
-        message: "Product " + action.payload.title + " has been created!",
-      };
+        type: 'success',
+        message: 'Product ' + action.payload.title + ' has been created!'
+      }
     },
     afterUpdate: (
       state,
       action: PayloadAction<{
-        product_id: string;
-        title: string;
-        image: string;
-        sku: string;
+        product_id: string
+        title: string
+        image: string
+        sku: string
       }>
     ) => {
       state.products = state.products.map((product) => {
         // Update the correct product with the new payload
         if (product._id === action.payload.product_id) {
-          return action.payload;
+          return action.payload
         } else {
-          return product;
+          return product
         }
-      });
+      })
 
       state.alert = {
-        type: "success",
-        message: "Product SKU " + action.payload.sku + " has been updated!",
-      };
+        type: 'success',
+        message: 'Product SKU ' + action.payload.sku + ' has been updated!'
+      }
     },
     afterDelete: (state, action: PayloadAction<string>) => {
       state.products = state.products.filter(
         (product) => product._id !== action.payload
-      );
+      )
       state.alert = {
-        type: "info",
-        message: `Product ID ${action.payload} has been deleted`,
-      };
-    },
+        type: 'info',
+        message: `Product ID ${action.payload} has been deleted`
+      }
+    }
   },
-  extraReducers(builder) {
+  extraReducers (builder) {
     builder
       .addCase(productListAsync.pending, (state) => {
-        state.status = "loading";
+        state.status = 'loading'
       })
       .addCase(productListAsync.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.products = action.payload;
+        state.status = 'succeeded'
+        state.products = action.payload
       })
       .addCase(productListAsync.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      });
-  },
-});
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+  }
+})
 
-const { afterCreate, afterDelete, afterUpdate } = productListSlice.actions;
+const { afterCreate, afterDelete, afterUpdate } = productListSlice.actions
 
 export const selectAllProducts = (state: RootState) =>
-  state.productList.products;
+  state.productList.products
 
-export const selectAlert = (state: RootState) => state.productList.alert;
+export const selectAlert = (state: RootState) => state.productList.alert
 
-export default productListSlice.reducer;
+export default productListSlice.reducer
 
-type DispatchFn = (...args: unknown[]) => unknown;
+type DispatchFn = (...args: unknown[]) => unknown
 
 export const createProduct = (payload: Record<string, any>) => {
   return async (dispatch: DispatchFn) => {
-    api.post(`product/add`, payload).then((res) => {
-      dispatch(afterCreate(res.data));
-    });
-  };
-};
+    api.post('product/add', payload).then((res) => {
+      dispatch(afterCreate(res.data))
+    })
+  }
+}
 
 export const updateProduct = (id: string, payload: Record<string, any>) => {
   return async (dispatch: DispatchFn) => {
     api.post(`update/${id}`, payload).then((res) => {
-      dispatch(afterUpdate(res.data));
-    });
-  };
-};
+      dispatch(afterUpdate(res.data))
+    })
+  }
+}
 
 export const deleteProduct = (id: string) => {
   return async (dispatch: DispatchFn) => {
     api.delete(`/${id}`).then(() => {
-      dispatch(afterDelete(id));
-    });
-  };
-};
+      dispatch(afterDelete(id))
+    })
+  }
+}
