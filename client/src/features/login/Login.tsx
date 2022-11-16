@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Form, Row, FloatingLabel, Stack, Card, Alert } from 'react-bootstrap';
+import { Button, Col, Form, Row, FloatingLabel, Stack, Card, Alert, Spinner } from 'react-bootstrap';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import {
@@ -17,6 +17,8 @@ export function Login() {
   const userName = useAppSelector(selectUserName) || '';
   const token = useAppSelector(selectToken) || null;
 
+  const loginStatus = useAppSelector(state => state.login.status)
+
   const dispatch = useAppDispatch();
 
   const [ adminUserName, setAdminUserName ] = useState('admin@example.com')
@@ -30,8 +32,6 @@ export function Login() {
     }
     dispatch(loginAsync(formData))
 }
-
-
   return (
     <div>
 
@@ -39,10 +39,14 @@ export function Login() {
       <Row className='mt-5'>
       <Col xs={12} md={{ span: 6, offset: 3 }}>
         <Card className='p-5'>
-          <h2>Login</h2>
+          <h2 className="mb-5">Login</h2>
           
       <Form onSubmit={handleSubmit}>
+      { loginStatus == 'failed' ? <Alert key="danger" variant="danger">Authentication failed.</Alert> : ''}
+      { loginStatus == 'loading' ? <Spinner animation="border" variant="primary" /> : 
+
       <Stack gap={3}>
+
 
         <FloatingLabel label="Username">
           <Form.Control size="lg" type="text" value={adminUserName} onChange={(e) => setAdminUserName(e.target.value)} />
@@ -54,6 +58,7 @@ export function Login() {
           Login
         </Button>
       </Stack>
+}
 
       </Form>
 

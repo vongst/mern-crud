@@ -90,11 +90,12 @@ export const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
-        state.status = 'loading';
-
         state.userName = null
         state.token = null
         state.loggedIn = false;
+        state.status = 'loading';
+
+
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
         console.log("loginAsync.fulfilled\n " + JSON.stringify(state) + JSON.stringify(action))
