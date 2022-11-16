@@ -50,7 +50,7 @@ export const productListSlice = createSlice({
       console.log(action.payload)
       state.status = 'idle';
 
-      axios.post(process.env.REACT_APP_API_URL + '/product/add', action.payload);
+      axios.post(process.env.REACT_APP_API_URL + 'product/add', action.payload);
       // How to make async?
 
       state.alert = { type: "success", message: "Product " + action.payload.title + " has been created!" }
@@ -59,7 +59,7 @@ export const productListSlice = createSlice({
     productUpdate: (state, action: PayloadAction<{product_id: string, title: string, image: string, sku: string}>) => {
    
       state.status = 'idle';
-      axios.post(process.env.REACT_APP_API_URL + '/update/' + action.payload.product_id, action.payload )
+      axios.post(process.env.REACT_APP_API_URL + 'update/' + action.payload.product_id, action.payload )
       .then((res) => { console.log(res) })
       // How to make async?
 

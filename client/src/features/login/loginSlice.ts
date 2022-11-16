@@ -42,7 +42,7 @@ export const loginAsync = createAsyncThunk(
   async (query: {username: string, password: string}) => {
     console.log(query)
     
-    const response = await axios.post(API_URL + '/auth', query)
+    const response = await axios.post(API_URL + 'auth', query)
 
     // The value we return becomes the `fulfilled` action payload
     return response.data;
