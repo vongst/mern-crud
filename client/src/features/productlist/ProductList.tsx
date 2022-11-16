@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Alert, Badge, Stack, Spinner } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import ProductListItem from "./ProductListItem";
-import { selectAllProducts, fetchProductList, selectAlert } from './productListSlice';
+import { selectAllProducts, productListAsync, selectAlert, } from './productListSlice';
 import './ProductList.scss';
 import ProductListItemEdit from "./ProductListItemEdit";
 
@@ -10,36 +10,29 @@ function ProductList() {
     // console.log(useAppSelector(state => state));
 
     const dispatch = useAppDispatch()
-    const products = useAppSelector(selectAllProducts)
+    const products = useAppSelector(state => state.productList.products)
     const alert = useAppSelector(selectAlert)
     const productListStatus = useAppSelector(state => state.productList.status)
     const error = useAppSelector((state) => state.productList.error)
 
     
     useEffect(() => {
-      if (productListStatus === 'idle') {
-          dispatch(fetchProductList())
+      if (productListStatus !== 'succeeded') {
+          dispatch(productListAsync())
       }
     }, [productListStatus, dispatch])
 
     let content;
 
     if (productListStatus === 'loading') {
-      content = <Spinner animation="border" variant="primary" />
+      content = <div className="d-flex justify-content-center"><Spinner animation="grow" className="m-5" variant="primary" /></div>
     } else if (productListStatus === 'succeeded') {
-      content = products.map((product) => {
-        return (
-          <ProductListItem key={product._id} editMode={'create'} {...product}  />
-        );
-      }
-      )
-    } else if (productListStatus === 'failed') {
-      content = <div>errror</div>
-    }
+      content = products.map((product) => (<ProductListItem key={product._id} editMode={'create'} {...product}  />))
+    } 
 
     return(
         <div className="me-3 m-3">
-            { alert ? <Alert key={alert.type} variant={alert.type}>{alert.message}</Alert> : ''}
+            
             <div className="mb-4">
               <ProductListItemEdit />
             </div>
@@ -47,11 +40,7 @@ function ProductList() {
               Product List 
               <Badge id="productlist-badge" bg="primary" pill>{products.length}</Badge>
             </h1>
-
-            
-            
-
-
+            { alert ? <Alert key={alert.type} variant={alert.type}>{alert.message}</Alert> : ''}
             <Stack gap={2} id="productlist" >
               {content}
             </Stack>

@@ -25,12 +25,15 @@ const initialState: ProductListState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const fetchProductList = createAsyncThunk('products/fetchProductList', async () => {
-  const response = await axios.get(process.env.REACT_APP_API_URL + '/product')
-  // console.log('response.data');
-  return response.data
-})
 
+
+export const productListAsync = createAsyncThunk(
+  'products/fetchList',
+  async () => {
+    const response = await axios.get(process.env.REACT_APP_API_URL + 'product')
+    return response.data;
+  }
+);
 
 
 export const productListSlice = createSlice({
@@ -64,32 +67,14 @@ export const productListSlice = createSlice({
       // How to make async?
 
       state.alert = { type: "success", message: "Product SKU " + action.payload.sku + " has been updated!" }
-
-
-      /* productListSlice.ts:72 Uncaught (in promise) TypeError: Cannot perform 'set' on a proxy that has been revoked
-    at productListSlice.ts:72:1
-      */
-      // axios.post(process.env.REACT_APP_API_URL + '/update/' + action.payload.product_id, action.payload )
-      // .then((response) => {
-      //   console.log(response)
-
-      //   state.alert = { type: "success", message: response.status + " Product SKU has been updated!" }
-        
-      // })
-      // .catch((error) => {
-      //   console.log(error.config)
-      // })
-      // .then(() => { 
-      //   state.status = 'idle'
-      // })
     },
     productDelete: (state, action: PayloadAction<string>) => {
       state.status = 'idle';
 
-      console.log(action.payload)
+      // console.log(action.payload)
       axios.delete(process.env.REACT_APP_API_URL + '/' + action.payload)
       .then((response) => {
-        console.log(response)
+        console.log('productDelete > axios.delete > .then\n' + JSON.stringify(response))
       })
       
 
@@ -101,18 +86,20 @@ export const productListSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchProductList.pending, (state, action) => {
+   
+      .addCase(productListAsync.pending, (state) => {
         state.status = 'loading'
       })
-      .addCase(fetchProductList.fulfilled, (state, action) => {
+      .addCase(productListAsync.fulfilled, (state, action) => {
+        console.log("productListAsync.fulfilled\n " + JSON.stringify(state) + JSON.stringify(action))
         state.status = 'succeeded'
-        // Add any fetched productList to the array
         state.products = action.payload
       })
-      .addCase(fetchProductList.rejected, (state, action) => {
+      .addCase(productListAsync.rejected, (state, action) => {
+        console.log("productListAsync.rejected\n ")
         state.status = 'failed'
         state.error = action.error.message
-      })
+      });
   }
 });
 

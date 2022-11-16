@@ -4,7 +4,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { BsPencil, BsBagPlus} from "react-icons/bs";
-import { productCreate, productUpdate, fetchProductList } from './productListSlice';
+import { productCreate, productUpdate } from './productListSlice';
 
 
 const ProductListItemEdit = (props: any) => {
